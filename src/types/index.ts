@@ -32,9 +32,14 @@ export type ImageGridProps = {
 
 export type FakeEventType = {
 	currentTarget: any;
+	code?: string;
 };
 
 export type HeaderProps = {
 	onChange: (e: React.FormEvent<HTMLInputElement> | FakeEventType) => void;
 	query: string;
+};
+
+export type HeaderMenuProps = {
+	handleSubmit: (e: React.FormEvent<HTMLInputElement> | FakeEventType) => void;
 };

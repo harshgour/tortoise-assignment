@@ -1,5 +1,5 @@
 import React from "react";
-import { HeaderProps } from "../../types";
+import { FakeEventType, HeaderProps } from "../../types";
 import "./Header.scss";
 import HeaderMenu from "./HeaderMenu";
 import HeaderNavMenu from "./HeaderNavMenu";
@@ -24,8 +24,10 @@ const Header: React.FC<HeaderProps> = (props) => {
 	const handleQueryChange = (e: React.FormEvent<HTMLInputElement>) => {
 		setSearchQuery(e.currentTarget.value);
 	};
-	const handleQuerySubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.code === "Enter") {
+	const handleQuerySubmit = (
+		e: React.KeyboardEvent<HTMLInputElement> | FakeEventType,
+	) => {
+		if (e.code === "Enter" || e.code === "click") {
 			console.log("triggered");
 			props.onChange(e);
 		}
@@ -62,7 +64,7 @@ const Header: React.FC<HeaderProps> = (props) => {
 				/>
 				<HeaderNavMenu handleClick={handleHeaderOptionClick} />
 			</div>
-			<HeaderMenu />
+			<HeaderMenu handleSubmit={handleQuerySubmit} />
 		</div>
 	);
 };
