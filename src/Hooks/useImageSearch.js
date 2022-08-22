@@ -27,7 +27,7 @@ const useImageSearch = (query, pageNumber) => {
 				query,
 				page: pageNumber,
 				per_page: 12,
-				client_id: "TC-8p0VjnDu5r6DwOk8X6h6qE1FaCca6GUWY9nM2wyQ",
+				client_id: process.env.REACT_APP_UNSPLASH_CLIENTID,
 			},
 			cancelToken: new axios.CancelToken((c) => (cancel = c)),
 		})
