@@ -1,0 +1,32 @@
+.header {
+	&.show-shadow {
+		box-shadow: 0px 2px 9px 1px rgba(0, 0, 0, 0.2);
+	}
+	.menu-arrow {
+		position: absolute;
+		top: 50%;
+		background-color: white;
+		&.arrow-left {
+			left: 80px;
+			transform: translateY(-50%) translateX(100%);
+			box-shadow: 15px 0 8px 12px rgba(255, 255, 255, 0.9);
+		}
+		&.arrow-right {
+			right: 0;
+			transform: translateY(-50%) translateX(-100%);
+			box-shadow: -15px 0 8px 12px rgba(255, 255, 255, 0.9);
+		}
+	}
+
+	.header-menu-options {
+		&::-webkit-scrollbar {
+			height: 2px;
+		}
+		&::-webkit-scrollbar-thumb {
+			background: rgba(0, 0, 0, 0.2);
+		}
+		&::-webkit-scrollbar-track {
+			background: #f6f6f5;
+		}
+	}
+}

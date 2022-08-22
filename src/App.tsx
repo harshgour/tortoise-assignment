@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.scss";
+import Header from "./components/Header/Header";
+import BrandImageBanner from "./components/BrandBanner/BrandImageBanner";
+import ConditionalComponent from "./components/Shared/ConditionalComponent";
+import ImageGrid from "./components/ImageGrid/ImageGrid";
+import { FakeEventType } from "./types";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => {
+	const [query, setQuery] = useState("");
+	const [pageNumber, setPageNumber] = useState(1);
+
+	const handleSearch = (
+		e: React.FormEvent<HTMLInputElement> | FakeEventType,
+	) => {
+		setQuery(e?.currentTarget?.value);
+		setPageNumber(1);
+	};
+
+	const increasePageNumber = () => {
+		setPageNumber((prev) => prev + 1);
+	};
+
+	return (
+		<div className='App'>
+			<Header onChange={(e) => handleSearch(e)} query={query} />
+			<div className='content w-full text-center'>
+				<ConditionalComponent isVisible={!query}>
+					<BrandImageBanner onChange={(e) => handleSearch(e)} query={query} />
+				</ConditionalComponent>
+				<ConditionalComponent isVisible={!!query}>
+					<div className='mt-6'>Search results for "{query}"</div>
+				</ConditionalComponent>
+				<ImageGrid
+					pageNumber={pageNumber}
+					query={query}
+					increasePageNumber={increasePageNumber}
+				/>
+			</div>
+		</div>
+	);
+};
 
 export default App;
