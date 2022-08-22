@@ -1,11 +1,4 @@
-import React, {
-	LegacyRef,
-	useCallback,
-	useEffect,
-	useLayoutEffect,
-	useRef,
-	useState,
-} from "react";
+import React, { LegacyRef, useCallback, useRef } from "react";
 import useImageSearch from "../../Hooks/useImageSearch";
 import { ImageGridProps } from "../../types";
 import ImageBackDrop from "../ImageBackdrop/ImageBackDrop";
@@ -14,7 +7,7 @@ import ConditionalComponent from "../Shared/ConditionalComponent";
 import Loader from "../Shared/Loader/Loader";
 
 const ImageGrid: React.FC<ImageGridProps> = (props) => {
-	const { allImages, hasMore, loading } = useImageSearch(
+	const { allImages, hasMore, loading, error, isError } = useImageSearch(
 		props.query,
 		props.pageNumber,
 	);
@@ -25,7 +18,7 @@ const ImageGrid: React.FC<ImageGridProps> = (props) => {
 			if (loading) return;
 			if (observer.current) observer.current.disconnect();
 			observer.current = new IntersectionObserver((entries) => {
-				if (entries[0].isIntersecting && hasMore) {
+				if (entries[0].isIntersecting && hasMore && !error) {
 					props.increasePageNumber();
 				}
 			});
@@ -112,6 +105,12 @@ const ImageGrid: React.FC<ImageGridProps> = (props) => {
 			<ConditionalComponent isVisible={loading}>
 				<div className='text-center'>
 					<Loader />
+				</div>
+			</ConditionalComponent>
+			<ConditionalComponent isVisible={isError}>
+				<div className='text-center mt-10'>
+					Some unexpected error occured with the API!! Please reload or try
+					again later! <br /> `{error}`
 				</div>
 			</ConditionalComponent>
 		</>

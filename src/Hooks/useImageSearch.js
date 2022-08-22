@@ -3,7 +3,8 @@ import axios from "axios";
 
 const useImageSearch = (query, pageNumber) => {
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(false);
+	const [isError, setIsError] = useState(false);
+	const [error, setError] = useState("");
 	const [allImages, setAllImages] = useState(
 		window.innerWidth > 1024 ? [[], [], []] : [[], []],
 	);
@@ -33,8 +34,18 @@ const useImageSearch = (query, pageNumber) => {
 		})
 			.then((res) => {
 				const data = res.data.results || res.data;
-				let low = window.innerWidth > 1024 ? [0, 4, 8] : [0, 6];
-				let high = window.innerWidth > 1024 ? [4, 8, 12] : [6, 12];
+				let low =
+					window.innerWidth > 1024
+						? [0, Math.ceil(data.length / 3), Math.ceil(data.length / 3) * 2]
+						: [0, Math.ceil(data.length / 2)];
+				let high =
+					window.innerWidth > 1024
+						? [
+								Math.ceil(data.length / 3),
+								Math.ceil(data.length / 3) * 2,
+								data.length,
+						  ]
+						: [Math.floor(data.length / 2), data.length];
 				let srcset = [
 					"100w",
 					"200w",
@@ -80,7 +91,9 @@ const useImageSearch = (query, pageNumber) => {
 			})
 			.catch((e) => {
 				if (axios.isCancel(e)) return;
-				setError(true);
+				setError(e.response.data);
+				setIsError(true);
+				setLoading(false);
 			});
 		return () => cancel();
 	}, [query, pageNumber]);
@@ -90,6 +103,7 @@ const useImageSearch = (query, pageNumber) => {
 		error,
 		hasMore,
 		allImages,
+		isError,
 	};
 };
 

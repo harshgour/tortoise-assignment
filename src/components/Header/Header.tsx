@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FakeEventType, HeaderProps } from "../../types";
 import "./Header.scss";
 import HeaderMenu from "./HeaderMenu";
@@ -18,6 +18,11 @@ const Header: React.FC<HeaderProps> = (props) => {
 			setWindowScrolled(false);
 		}
 	});
+
+	//useEffect
+	useEffect(() => {
+		setSearchQuery(props.query);
+	}, [props.query]);
 
 	//functions
 	const handleHeaderOptionClick = (action: string) => {}; //TBD
@@ -57,7 +62,7 @@ const Header: React.FC<HeaderProps> = (props) => {
 					</a>
 				</div>
 				<HeaderSearchBar
-					searchQuery={props.query}
+					searchQuery={searchQuery}
 					onSubmit={handleQuerySubmit}
 					onChange={handleQueryChange}
 					onClear={handleClearQuery}

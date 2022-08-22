@@ -24,7 +24,7 @@ const App: React.FC = () => {
 	return (
 		<div className='App'>
 			<Header onChange={(e) => handleSearch(e)} query={query} />
-			<div className='content w-full text-center'>
+			<div className='content w-full text-center mt-6 mb-10'>
 				<ConditionalComponent isVisible={!query}>
 					<BrandImageBanner onChange={(e) => handleSearch(e)} query={query} />
 				</ConditionalComponent>
